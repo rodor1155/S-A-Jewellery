@@ -3,9 +3,1046 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello</title>
+    <title>S&A Jewellery - Handcrafted Excellence</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <script src="https://www.paypal.com/sdk/js?client-id=sandbox&currency=GBP"></script>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <style>
+        body {
+            background-image: url('https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hover-scale {
+            transition: transform 0.3s ease;
+        }
+        .hover-scale:hover {
+            transform: scale(1.05);
+        }
+        .admin-section {
+            display: none;
+        }
+        .admin-section.active {
+            display: block;
+        }
+        .back-arrow {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        .back-arrow:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.1);
+        }
+        .logo-img {
+            height: 40px;
+            width: auto;
+        }
+    </style>
 </head>
-<body>
-    <h1>Hello</h1>
+<body class="min-h-screen">
+    <!-- Back Arrow -->
+    <div id="backArrow" class="back-arrow" onclick="goBack()">
+        <i class="fas fa-arrow-left text-indigo-600"></i>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="glass-effect shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <img src="https://page.gensparksite.com/v1/base64_upload/ffc615e6d3ac747e61802c003e94fc97" alt="S&A Jewellery" class="logo-img mr-3">
+                    <h1 class="text-2xl font-bold gradient-text">S&A Jewellery</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="#home" class="text-gray-700 hover:text-indigo-600 transition-colors">Home</a>
+                    <a href="#products" class="text-gray-700 hover:text-indigo-600 transition-colors">Products</a>
+                    <a href="#about" class="text-gray-700 hover:text-indigo-600 transition-colors">About</a>
+                    <a href="#contact" class="text-gray-700 hover:text-indigo-600 transition-colors">Contact</a>
+                    <button onclick="showAdminLogin()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
+                        <i class="fas fa-user-cog mr-2"></i>Admin
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="glass-effect rounded-lg p-12">
+                <h2 class="text-5xl font-bold gradient-text mb-6">Handcrafted Excellence</h2>
+                <p class="text-xl text-gray-600 mb-8">Discover our exquisite collection of handmade jewellery, crafted with passion and precision.</p>
+                <a href="#products" class="bg-indigo-600 text-white px-8 py-3 rounded-lg text-lg hover:bg-indigo-700 transition-colors">
+                    Explore Collection
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold text-center gradient-text mb-12">Our Jewellery Collection</h2>
+            <div id="productGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Products will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-effect rounded-lg p-12">
+                <h2 class="text-4xl font-bold gradient-text text-center mb-8">About S&A Jewellery</h2>
+                <p class="text-lg text-gray-600 text-center max-w-3xl mx-auto">
+                    At S&A Jewellery, we believe that every piece tells a story. Our handcrafted jewellery combines traditional techniques with contemporary designs, creating unique pieces that celebrate life's special moments. Each item is carefully crafted with attention to detail and made with love.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-effect rounded-lg p-12 text-center">
+                <h2 class="text-4xl font-bold gradient-text mb-8">Contact Us</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div>
+                        <i class="fas fa-envelope text-3xl text-indigo-600 mb-4"></i>
+                        <p class="text-lg text-gray-600"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="533a3d353c132032393624363f3f36212a7d303c7d2638">[email&#160;protected]</a></p>
+                    </div>
+                    <div>
+                        <i class="fas fa-phone text-3xl text-indigo-600 mb-4"></i>
+                        <p class="text-lg text-gray-600">+44 123 456 7890</p>
+                    </div>
+                    <div>
+                        <i class="fas fa-map-marker-alt text-3xl text-indigo-600 mb-4"></i>
+                        <p class="text-lg text-gray-600">London, United Kingdom</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admin Login Modal -->
+    <div id="adminLoginModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen">
+            <div class="glass-effect rounded-lg p-8 max-w-md w-full mx-4">
+                <h3 class="text-2xl font-bold gradient-text mb-6 text-center">Admin Login</h3>
+                <div class="space-y-4">
+                    <input type="password" id="adminPassword" placeholder="Enter admin password" 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                    <div class="flex space-x-4">
+                        <button onclick="adminLogin()" class="flex-1 bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition-colors">
+                            Login
+                        </button>
+                        <button onclick="closeAdminLogin()" class="flex-1 bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600 transition-colors">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="adminPanel" class="admin-section">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="glass-effect rounded-lg p-8">
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="text-3xl font-bold gradient-text">Admin Panel</h2>
+                    <button onclick="adminLogout()" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">
+                        <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                    </button>
+                </div>
+
+                <!-- Admin Navigation -->
+                <div class="border-b border-gray-200 mb-8">
+                    <nav class="-mb-px flex space-x-8">
+                        <button onclick="showAdminSection('products')" class="admin-nav-btn border-indigo-500 text-indigo-600 border-b-2 py-2 px-1 text-sm font-medium">
+                            Products
+                        </button>
+                        <button onclick="showAdminSection('orders')" class="admin-nav-btn border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 border-b-2 py-2 px-1 text-sm font-medium">
+                            Orders
+                        </button>
+                        <button onclick="showAdminSection('tracking')" class="admin-nav-btn border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 border-b-2 py-2 px-1 text-sm font-medium">
+                            Order Tracking
+                        </button>
+                        <button onclick="showAdminSection('settings')" class="admin-nav-btn border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 border-b-2 py-2 px-1 text-sm font-medium">
+                            Settings
+                        </button>
+                    </nav>
+                </div>
+
+                <!-- Products Management -->
+                <div id="adminProducts" class="admin-section active">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-2xl font-bold text-gray-800">Manage Products</h3>
+                        <button onclick="showAddProduct()" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors">
+                            <i class="fas fa-plus mr-2"></i>Add Product
+                        </button>
+                    </div>
+                    <div id="adminProductList" class="space-y-4">
+                        <!-- Products will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Orders Management -->
+                <div id="adminOrders" class="admin-section">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6">Customer Orders</h3>
+                    <div id="ordersList" class="space-y-4">
+                        <!-- Orders will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Order Tracking -->
+                <div id="adminTracking" class="admin-section">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6">Order Tracking</h3>
+                    <div id="trackingList" class="space-y-4">
+                        <!-- Tracking info will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Settings -->
+                <div id="adminSettings" class="admin-section">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6">Website Settings</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">PayPal Email</label>
+                            <input type="email" id="paypalEmail" placeholder="your-paypal-email@gmail.com" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Email Service Settings</label>
+                            <input type="text" id="emailServiceId" placeholder="EmailJS Service ID" class="w-full px-4 py-2 border border-gray-300 rounded-lg mb-2">
+                            <input type="text" id="emailTemplateId" placeholder="EmailJS Template ID" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                        </div>
+                        <button onclick="saveSettings()" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
+                            Save Settings
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Product Modal -->
+    <div id="productModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="glass-effect rounded-lg p-8 max-w-2xl w-full max-h-full overflow-y-auto">
+                <h3 class="text-2xl font-bold gradient-text mb-6">Add/Edit Product</h3>
+                <form id="productForm" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Product Name</label>
+                        <input type="text" id="productName" class="w-full px-4 py-2 border border-gray-300 rounded-lg" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Price (£)</label>
+                        <input type="number" id="productPrice" step="0.01" class="w-full px-4 py-2 border border-gray-300 rounded-lg" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                        <textarea id="productDescription" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Product Images</label>
+                        <input type="file" id="productImages" multiple accept="image/*" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                        <p class="text-sm text-gray-500 mt-1">Select multiple images for this product</p>
+                    </div>
+                    <div id="imagePreview" class="grid grid-cols-3 gap-4 mt-4">
+                        <!-- Image previews will appear here -->
+                    </div>
+                    <div class="flex space-x-4">
+                        <button type="submit" class="flex-1 bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition-colors">
+                            Save Product
+                        </button>
+                        <button type="button" onclick="closeProductModal()" class="flex-1 bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600 transition-colors">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Modal -->
+    <div id="orderModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="glass-effect rounded-lg p-8 max-w-2xl w-full max-h-full overflow-y-auto">
+                <h3 class="text-2xl font-bold gradient-text mb-6">Place Order</h3>
+                <form id="orderForm" class="space-y-4">
+                    <div id="orderProductInfo" class="mb-6">
+                        <!-- Product info will be displayed here -->
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">First Name</label>
+                            <input type="text" id="customerFirstName" class="w-full px-4 py-2 border border-gray-300 rounded-lg" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
+                            <input type="text" id="customerLastName" class="w-full px-4 py-2 border border-gray-300 rounded-lg" required>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                        <input type="email" id="customerEmail" class="w-full px-4 py-2 border border-gray-300 rounded-lg" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+                        <input type="tel" id="customerPhone" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Delivery Address</label>
+                        <textarea id="customerAddress" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg" required></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Special Requests</label>
+                        <textarea id="specialRequests" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Any customisations or special requests..."></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Payment Method</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center">
+                                <input type="radio" name="paymentMethod" value="paypal" class="mr-2" checked>
+                                <span>PayPal</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="paymentMethod" value="cash" class="mr-2">
+                                <span>Cash on Delivery</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="paypalButtonContainer" class="mt-4">
+                        <!-- PayPal button will be rendered here -->
+                    </div>
+                    <div class="flex space-x-4">
+                        <button type="submit" id="placeOrderBtn" class="flex-1 bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition-colors">
+                            Place Order
+                        </button>
+                        <button type="button" onclick="closeOrderModal()" class="flex-1 bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600 transition-colors">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Application State
+        let isAdminLoggedIn = false;
+        let products = [];
+        let orders = [];
+        let currentEditingProduct = null;
+        let currentOrderProduct = null;
+
+        // Admin password - simple but working
+        const ADMIN_PASSWORD = 'admin';
+
+        // Initialize application
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProducts();
+            initializeEmailJS();
+            loadOrders();
+        });
+
+        // Back arrow functionality
+        function goBack() {
+            if (document.getElementById('orderModal').classList.contains('hidden') === false) {
+                closeOrderModal();
+            } else if (document.getElementById('productModal').classList.contains('hidden') === false) {
+                closeProductModal();
+            } else {
+                document.getElementById('backArrow').style.display = 'none';
+            }
+        }
+
+        function showBackArrow() {
+            document.getElementById('backArrow').style.display = 'flex';
+        }
+
+        function hideBackArrow() {
+            document.getElementById('backArrow').style.display = 'none';
+        }
+
+        // Admin Login Functions
+        function showAdminLogin() {
+            document.getElementById('adminLoginModal').classList.remove('hidden');
+        }
+
+        function closeAdminLogin() {
+            document.getElementById('adminLoginModal').classList.add('hidden');
+            document.getElementById('adminPassword').value = '';
+        }
+
+        function adminLogin() {
+            const password = document.getElementById('adminPassword').value;
+            if (password === ADMIN_PASSWORD) {
+                isAdminLoggedIn = true;
+                closeAdminLogin();
+                showAdminPanel();
+                loadAdminData();
+            } else {
+                alert('Incorrect password!');
+            }
+        }
+
+        function adminLogout() {
+            isAdminLoggedIn = false;
+            hideAdminPanel();
+        }
+
+        function showAdminPanel() {
+            document.getElementById('adminPanel').classList.add('active');
+            document.querySelector('nav').style.display = 'none';
+            document.getElementById('home').style.display = 'none';
+            document.getElementById('products').style.display = 'none';
+            document.getElementById('about').style.display = 'none';
+            document.getElementById('contact').style.display = 'none';
+        }
+
+        function hideAdminPanel() {
+            document.getElementById('adminPanel').classList.remove('active');
+            document.querySelector('nav').style.display = 'block';
+            document.getElementById('home').style.display = 'block';
+            document.getElementById('products').style.display = 'block';
+            document.getElementById('about').style.display = 'block';
+            document.getElementById('contact').style.display = 'block';
+        }
+
+        // Admin Section Navigation
+        function showAdminSection(section) {
+            // Hide all admin sections
+            document.querySelectorAll('#adminPanel .admin-section').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            // Update navigation
+            document.querySelectorAll('.admin-nav-btn').forEach(btn => {
+                btn.classList.remove('border-indigo-500', 'text-indigo-600');
+                btn.classList.add('border-transparent', 'text-gray-500');
+            });
+            
+            // Show selected section
+            document.getElementById('admin' + section.charAt(0).toUpperCase() + section.slice(1)).classList.add('active');
+            
+            // Update active nav button
+            event.target.classList.remove('border-transparent', 'text-gray-500');
+            event.target.classList.add('border-indigo-500', 'text-indigo-600');
+
+            if (section === 'orders') {
+                loadOrdersAdmin();
+            } else if (section === 'tracking') {
+                loadTrackingAdmin();
+            }
+        }
+
+        // Product Management
+        function loadProducts() {
+            const savedProducts = localStorage.getItem('sajewellery_products');
+            if (savedProducts) {
+                products = JSON.parse(savedProducts);
+            } else {
+                // Default products
+                products = [
+                    {
+                        id: 1,
+                        name: 'Elegant Diamond Necklace',
+                        price: 85.00,
+                        description: 'A stunning diamond necklace perfect for special occasions.',
+                        images: ['https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80']
+                    },
+                    {
+                        id: 2,
+                        name: 'Rose Gold Stud Earrings',
+                        price: 45.00,
+                        description: 'Delicate rose gold earrings with brilliant cut diamonds.',
+                        images: ['https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80']
+                    },
+                    {
+                        id: 3,
+                        name: 'Vintage Silver Bracelet',
+                        price: 38.00,
+                        description: 'A beautiful vintage-inspired silver bracelet with intricate details.',
+                        images: ['https://images.unsplash.com/photo-1611652022419-a9419f74343d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80']
+                    }
+                ];
+                saveProducts();
+            }
+            displayProducts();
+        }
+
+        function saveProducts() {
+            localStorage.setItem('sajewellery_products', JSON.stringify(products));
+        }
+
+        function displayProducts() {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = '';
+
+            products.forEach(product => {
+                const productCard = createProductCard(product);
+                grid.appendChild(productCard);
+            });
+
+            if (isAdminLoggedIn) {
+                loadAdminProducts();
+            }
+        }
+
+        function createProductCard(product) {
+            const card = document.createElement('div');
+            card.className = 'glass-effect rounded-lg overflow-hidden hover-scale shadow-lg';
+            
+            const mainImage = product.images && product.images.length > 0 ? product.images[0] : 'https://via.placeholder.com/400x300';
+            
+            card.innerHTML = `
+                <div class="relative">
+                    <img src="${mainImage}" alt="${product.name}" class="w-full h-64 object-cover">
+                    ${product.images && product.images.length > 1 ? 
+                        `<div class="absolute top-2 right-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-sm">
+                            +${product.images.length - 1} more
+                        </div>` : ''
+                    }
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">${product.name}</h3>
+                    <p class="text-gray-600 mb-4">${product.description}</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-2xl font-bold text-indigo-600">£${product.price.toFixed(2)}</span>
+                        <button onclick="showOrderModal(${product.id})" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
+                            Order Now
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        function loadAdminProducts() {
+            const container = document.getElementById('adminProductList');
+            container.innerHTML = '';
+
+            products.forEach(product => {
+                const productDiv = document.createElement('div');
+                productDiv.className = 'border border-gray-200 rounded-lg p-4';
+                productDiv.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div class="flex-1">
+                            <h4 class="text-lg font-semibold">${product.name}</h4>
+                            <p class="text-gray-600">£${product.price.toFixed(2)}</p>
+                            <p class="text-sm text-gray-500">${product.description}</p>
+                            <p class="text-xs text-gray-400">${product.images ? product.images.length : 0} image(s)</p>
+                        </div>
+                        <div class="space-x-2">
+                            <button onclick="editProduct(${product.id})" class="text-blue-600 hover:text-blue-800">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button onclick="deleteProduct(${product.id})" class="text-red-600 hover:text-red-800">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(productDiv);
+            });
+        }
+
+        function showAddProduct() {
+            currentEditingProduct = null;
+            document.getElementById('productForm').reset();
+            document.getElementById('imagePreview').innerHTML = '';
+            document.getElementById('productModal').classList.remove('hidden');
+            showBackArrow();
+        }
+
+        function editProduct(id) {
+            const product = products.find(p => p.id === id);
+            if (product) {
+                currentEditingProduct = product;
+                document.getElementById('productName').value = product.name;
+                document.getElementById('productPrice').value = product.price;
+                document.getElementById('productDescription').value = product.description;
+                
+                // Show existing images
+                const preview = document.getElementById('imagePreview');
+                preview.innerHTML = '';
+                if (product.images) {
+                    product.images.forEach((img, index) => {
+                        const imgDiv = document.createElement('div');
+                        imgDiv.className = 'relative';
+                        imgDiv.innerHTML = `
+                            <img src="${img}" class="w-full h-24 object-cover rounded">
+                            <button type="button" onclick="removeImage(${index})" class="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 text-xs">×</button>
+                        `;
+                        preview.appendChild(imgDiv);
+                    });
+                }
+                
+                document.getElementById('productModal').classList.remove('hidden');
+                showBackArrow();
+            }
+        }
+
+        function deleteProduct(id) {
+            if (confirm('Are you sure you want to delete this product?')) {
+                products = products.filter(p => p.id !== id);
+                saveProducts();
+                displayProducts();
+            }
+        }
+
+        function closeProductModal() {
+            document.getElementById('productModal').classList.add('hidden');
+            hideBackArrow();
+        }
+
+        // Handle product form submission
+        document.getElementById('productForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('productName').value;
+            const price = parseFloat(document.getElementById('productPrice').value);
+            const description = document.getElementById('productDescription').value;
+            const imageFiles = document.getElementById('productImages').files;
+            
+            if (currentEditingProduct) {
+                // Update existing product
+                currentEditingProduct.name = name;
+                currentEditingProduct.price = price;
+                currentEditingProduct.description = description;
+                
+                // Handle new images
+                if (imageFiles.length > 0) {
+                    handleImageUpload(imageFiles, currentEditingProduct);
+                } else {
+                    saveProducts();
+                    displayProducts();
+                    closeProductModal();
+                }
+            } else {
+                // Create new product
+                const newProduct = {
+                    id: Date.now(),
+                    name: name,
+                    price: price,
+                    description: description,
+                    images: []
+                };
+                
+                if (imageFiles.length > 0) {
+                    handleImageUpload(imageFiles, newProduct, true);
+                } else {
+                    products.push(newProduct);
+                    saveProducts();
+                    displayProducts();
+                    closeProductModal();
+                }
+            }
+        });
+
+        function handleImageUpload(files, product, isNew = false) {
+            const promises = [];
+            
+            for (let file of files) {
+                promises.push(new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        resolve(e.target.result);
+                    };
+                    reader.readAsDataURL(file);
+                }));
+            }
+            
+            Promise.all(promises).then(images => {
+                if (isNew) {
+                    product.images = images;
+                    products.push(product);
+                } else {
+                    product.images = (product.images || []).concat(images);
+                }
+                saveProducts();
+                displayProducts();
+                closeProductModal();
+            });
+        }
+
+        function removeImage(index) {
+            if (currentEditingProduct && currentEditingProduct.images) {
+                currentEditingProduct.images.splice(index, 1);
+                editProduct(currentEditingProduct.id);
+            }
+        }
+
+        // Order Management
+        function showOrderModal(productId) {
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                currentOrderProduct = product;
+                
+                const productInfo = document.getElementById('orderProductInfo');
+                productInfo.innerHTML = `
+                    <div class="border border-gray-200 rounded-lg p-4">
+                        <div class="flex items-center space-x-4">
+                            <img src="${product.images && product.images[0] || 'https://via.placeholder.com/100'}" 
+                                 alt="${product.name}" class="w-20 h-20 object-cover rounded">
+                            <div>
+                                <h4 class="text-lg font-semibold">${product.name}</h4>
+                                <p class="text-gray-600">${product.description}</p>
+                                <p class="text-xl font-bold text-indigo-600">£${product.price.toFixed(2)}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                document.getElementById('orderForm').reset();
+                document.querySelector('input[name="paymentMethod"][value="paypal"]').checked = true;
+                updatePaymentMethod();
+                document.getElementById('orderModal').classList.remove('hidden');
+                showBackArrow();
+            }
+        }
+
+        function closeOrderModal() {
+            document.getElementById('orderModal').classList.add('hidden');
+            hideBackArrow();
+        }
+
+        // Handle payment method change
+        document.querySelectorAll('input[name="paymentMethod"]').forEach(radio => {
+            radio.addEventListener('change', updatePaymentMethod);
+        });
+
+        function updatePaymentMethod() {
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+            const paypalContainer = document.getElementById('paypalButtonContainer');
+            const placeOrderBtn = document.getElementById('placeOrderBtn');
+            
+            if (paymentMethod === 'paypal') {
+                paypalContainer.style.display = 'block';
+                placeOrderBtn.style.display = 'none';
+                renderPayPalButton();
+            } else {
+                paypalContainer.style.display = 'none';
+                placeOrderBtn.style.display = 'block';
+            }
+        }
+
+        function renderPayPalButton() {
+            const container = document.getElementById('paypalButtonContainer');
+            container.innerHTML = '';
+            
+            if (currentOrderProduct && window.paypal) {
+                paypal.Buttons({
+                    createOrder: function(data, actions) {
+                        return actions.order.create({
+                            purchase_units: [{
+                                amount: {
+                                    value: currentOrderProduct.price.toFixed(2),
+                                    currency_code: 'GBP'
+                                },
+                                description: currentOrderProduct.name
+                            }]
+                        });
+                    },
+                    onApprove: function(data, actions) {
+                        return actions.order.capture().then(function(details) {
+                            processOrder('paypal', details);
+                        });
+                    },
+                    onError: function(err) {
+                        console.error('PayPal error:', err);
+                        alert('Payment error occurred. Please try again.');
+                    }
+                }).render('#paypalButtonContainer');
+            }
+        }
+
+        // Handle order form submission (for cash payments)
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+            if (paymentMethod === 'cash') {
+                processOrder('cash');
+            }
+        });
+
+        function processOrder(paymentMethod, paypalDetails = null) {
+            const order = {
+                id: Date.now(),
+                productId: currentOrderProduct.id,
+                productName: currentOrderProduct.name,
+                productPrice: currentOrderProduct.price,
+                customerFirstName: document.getElementById('customerFirstName').value,
+                customerLastName: document.getElementById('customerLastName').value,
+                customerEmail: document.getElementById('customerEmail').value,
+                customerPhone: document.getElementById('customerPhone').value,
+                customerAddress: document.getElementById('customerAddress').value,
+                specialRequests: document.getElementById('specialRequests').value,
+                paymentMethod: paymentMethod,
+                paypalDetails: paypalDetails,
+                status: 'pending',
+                orderDate: new Date().toISOString(),
+                trackingNumber: 'SA' + Date.now().toString().slice(-6)
+            };
+            
+            // Save order
+            orders.push(order);
+            localStorage.setItem('sajewellery_orders', JSON.stringify(orders));
+            
+            // Send email confirmation
+            sendOrderConfirmation(order);
+            
+            // Show success message
+            alert(`Order placed successfully! Your tracking number is: ${order.trackingNumber}\nYou will receive an email confirmation shortly.`);
+            
+            closeOrderModal();
+        }
+
+        function loadOrders() {
+            const savedOrders = localStorage.getItem('sajewellery_orders');
+            if (savedOrders) {
+                orders = JSON.parse(savedOrders);
+            }
+        }
+
+        function loadOrdersAdmin() {
+            const container = document.getElementById('ordersList');
+            container.innerHTML = '';
+            
+            if (orders.length === 0) {
+                container.innerHTML = '<p class="text-gray-500">No orders yet.</p>';
+                return;
+            }
+            
+            orders.forEach(order => {
+                const orderDiv = document.createElement('div');
+                orderDiv.className = 'border border-gray-200 rounded-lg p-4';
+                orderDiv.innerHTML = `
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h4 class="text-lg font-semibold">Order #${order.trackingNumber}</h4>
+                            <p class="text-gray-600">${order.productName} - £${order.productPrice.toFixed(2)}</p>
+                            <p class="text-sm text-gray-500">Payment: ${order.paymentMethod}</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="px-2 py-1 rounded text-sm ${getStatusColor(order.status)}">${order.status}</span>
+                            <p class="text-xs text-gray-500 mt-1">${new Date(order.orderDate).toLocaleDateString()}</p>
+                        </div>
+                    </div>
+                    <div class="text-sm text-gray-600">
+                        <p><strong>Customer:</strong> ${order.customerFirstName} ${order.customerLastName}</p>
+                        <p><strong>Email:</strong> ${order.customerEmail}</p>
+                        <p><strong>Phone:</strong> ${order.customerPhone}</p>
+                        <p><strong>Address:</strong> ${order.customerAddress}</p>
+                        ${order.specialRequests ? `<p><strong>Special Requests:</strong> ${order.specialRequests}</p>` : ''}
+                    </div>
+                    <div class="mt-4 space-x-2">
+                        <select onchange="updateOrderStatus(${order.id}, this.value)" class="px-3 py-1 border border-gray-300 rounded">
+                            <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>Pending</option>
+                            <option value="processing" ${order.status === 'processing' ? 'selected' : ''}>Processing</option>
+                            <option value="shipped" ${order.status === 'shipped' ? 'selected' : ''}>Shipped</option>
+                            <option value="delivered" ${order.status === 'delivered' ? 'selected' : ''}>Delivered</option>
+                        </select>
+                    </div>
+                `;
+                container.appendChild(orderDiv);
+            });
+        }
+
+        function loadTrackingAdmin() {
+            const container = document.getElementById('trackingList');
+            container.innerHTML = '';
+            
+            if (orders.length === 0) {
+                container.innerHTML = '<p class="text-gray-500">No orders to track.</p>';
+                return;
+            }
+            
+            orders.forEach(order => {
+                const trackingDiv = document.createElement('div');
+                trackingDiv.className = 'border border-gray-200 rounded-lg p-4';
+                trackingDiv.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h4 class="text-lg font-semibold">Tracking #${order.trackingNumber}</h4>
+                            <p class="text-gray-600">${order.productName}</p>
+                            <p class="text-sm text-gray-500">${order.customerFirstName} ${order.customerLastName}</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="px-2 py-1 rounded text-sm ${getStatusColor(order.status)}">${order.status}</span>
+                            <p class="text-xs text-gray-500 mt-1">${new Date(order.orderDate).toLocaleDateString()}</p>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(trackingDiv);
+            });
+        }
+
+        function updateOrderStatus(orderId, newStatus) {
+            const order = orders.find(o => o.id === orderId);
+            if (order) {
+                order.status = newStatus;
+                localStorage.setItem('sajewellery_orders', JSON.stringify(orders));
+                
+                // Send status update email
+                sendStatusUpdateEmail(order);
+                
+                // Refresh displays
+                loadOrdersAdmin();
+                loadTrackingAdmin();
+            }
+        }
+
+        function getStatusColor(status) {
+            const colors = {
+                'pending': 'bg-yellow-100 text-yellow-800',
+                'processing': 'bg-blue-100 text-blue-800',
+                'shipped': 'bg-purple-100 text-purple-800',
+                'delivered': 'bg-green-100 text-green-800'
+            };
+            return colors[status] || 'bg-gray-100 text-gray-800';
+        }
+
+        // Email Functions
+        function initializeEmailJS() {
+            emailjs.init("YOUR_EMAILJS_USER_ID"); // Replace with your EmailJS user ID
+        }
+
+        function sendOrderConfirmation(order) {
+            const templateParams = {
+                to_email: order.customerEmail,
+                customer_name: `${order.customerFirstName} ${order.customerLastName}`,
+                order_number: order.trackingNumber,
+                product_name: order.productName,
+                product_price: `£${order.productPrice.toFixed(2)}`,
+                payment_method: order.paymentMethod,
+                delivery_address: order.customerAddress,
+                special_requests: order.specialRequests || 'None'
+            };
+
+            emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
+                .then(function(response) {
+                    console.log('Email sent successfully:', response);
+                }, function(error) {
+                    console.log('Email failed:', error);
+                });
+        }
+
+        function sendStatusUpdateEmail(order) {
+            const templateParams = {
+                to_email: order.customerEmail,
+                customer_name: `${order.customerFirstName} ${order.customerLastName}`,
+                order_number: order.trackingNumber,
+                product_name: order.productName,
+                new_status: order.status
+            };
+
+            emailjs.send('YOUR_SERVICE_ID', 'YOUR_STATUS_TEMPLATE_ID', templateParams)
+                .then(function(response) {
+                    console.log('Status update email sent:', response);
+                }, function(error) {
+                    console.log('Status update email failed:', error);
+                });
+        }
+
+        // Settings
+        function saveSettings() {
+            const settings = {
+                paypalEmail: document.getElementById('paypalEmail').value,
+                emailServiceId: document.getElementById('emailServiceId').value,
+                emailTemplateId: document.getElementById('emailTemplateId').value
+            };
+            
+            localStorage.setItem('sajewellery_settings', JSON.stringify(settings));
+            alert('Settings saved successfully!');
+        }
+
+        function loadAdminData() {
+            loadAdminProducts();
+            loadOrdersAdmin();
+            loadTrackingAdmin();
+            
+            // Load settings
+            const savedSettings = localStorage.getItem('sajewellery_settings');
+            if (savedSettings) {
+                const settings = JSON.parse(savedSettings);
+                document.getElementById('paypalEmail').value = settings.paypalEmail || '';
+                document.getElementById('emailServiceId').value = settings.emailServiceId || '';
+                document.getElementById('emailTemplateId').value = settings.emailTemplateId || '';
+            }
+        }
+
+        // Handle image preview in product form
+        document.getElementById('productImages').addEventListener('change', function(e) {
+            const preview = document.getElementById('imagePreview');
+            const existingImages = preview.children.length;
+            
+            for (let file of e.target.files) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const imgDiv = document.createElement('div');
+                    imgDiv.className = 'relative';
+                    imgDiv.innerHTML = `
+                        <img src="${event.target.result}" class="w-full h-24 object-cover rounded">
+                        <p class="text-xs text-center mt-1 text-gray-500">New</p>
+                    `;
+                    preview.appendChild(imgDiv);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"978f31c00a77386a","serverTiming":{"name":{"cfExtPri":true,"cfEdge":true,"cfOrigin":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"version":"2025.8.0","token":"4edd5f8ec12a48cfa682ab8261b80a79"}' crossorigin="anonymous"></script>
 </body>
 </html>
+    <script id="html_badge_script1">
+        window.__genspark_remove_badge_link = "https://www.genspark.ai/api/html_badge/" +
+            "remove_badge?token=To%2FBnjzloZ3UfQdcSaYfDjZ4mDekeGdLGPh16%2Bzm2IicZXYoQ7RFvJ%2F1oejZPWBQZw6OZeVU0DQugOU%2B21%2FZ5hBL2B0Ub0rjA48sr1oOh5SZvlaoUbiIhEpauJOoSHUYoqIWEZyL64uEH82%2BLzDdQsO65EPleXdunCKs%2BqvH2V7xa4x7hzqHGLQrm4pPG%2BN4kYF8m%2FIiNFT9OJP7arTBGeot%2FgMxTww6VcuuUCySzvwtq4WaUAplXnQN7UjSv5JDIQImWaCeSgFvoKqx4UU2%2BzsRWKriXEVRDjARdurBUy2Qm2bU2jKmTPOUgmlRLwMAsqmRNu3mFXWNLYQQR3iSeScHCYhrHirrmy0wGhAbb5anBkSr54Ti5SlYFUTJU2IQ4%2FhDD79k3jk%2BPuROq2%2Bu6ECFTk8zNwzPWv%2B0CL02D3UiExpXcFjmeKtiL6M1SSPllUr5MTj1pB6oVfDNvh9aWygTLKm1njI8KfXOzZ84NBUkTcr%2FAsOZOuOw7g0c7UcBi9XDw610jTSmkrII48q8ciuCK4%2BCN6O1E3dmMybRafg%3D";
+        window.__genspark_locale = "en-US";
+        window.__genspark_token = "To/BnjzloZ3UfQdcSaYfDjZ4mDekeGdLGPh16+zm2IicZXYoQ7RFvJ/1oejZPWBQZw6OZeVU0DQugOU+21/Z5hBL2B0Ub0rjA48sr1oOh5SZvlaoUbiIhEpauJOoSHUYoqIWEZyL64uEH82+LzDdQsO65EPleXdunCKs+qvH2V7xa4x7hzqHGLQrm4pPG+N4kYF8m/IiNFT9OJP7arTBGeot/gMxTww6VcuuUCySzvwtq4WaUAplXnQN7UjSv5JDIQImWaCeSgFvoKqx4UU2+zsRWKriXEVRDjARdurBUy2Qm2bU2jKmTPOUgmlRLwMAsqmRNu3mFXWNLYQQR3iSeScHCYhrHirrmy0wGhAbb5anBkSr54Ti5SlYFUTJU2IQ4/hDD79k3jk+PuROq2+u6ECFTk8zNwzPWv+0CL02D3UiExpXcFjmeKtiL6M1SSPllUr5MTj1pB6oVfDNvh9aWygTLKm1njI8KfXOzZ84NBUkTcr/AsOZOuOw7g0c7UcBi9XDw610jTSmkrII48q8ciuCK4+CN6O1E3dmMybRafg=";
+    </script>
+    
+    <script id="html_notice_dialog_script" src="https://www.genspark.ai/notice_dialog.js"></script>
+    
