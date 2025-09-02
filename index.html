@@ -13,19 +13,51 @@
             background-image: url('https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
             background-size: cover;
             background-position: center;
-            background-attachment: fixed;
+            background-attachment: scroll; /* Fixed: Changed from fixed to scroll for mobile compatibility */
         }
+        
+        /* Mobile-specific background fix */
+        @media (max-width: 768px) {
+            body {
+                background-attachment: scroll;
+                background-size: cover;
+                background-repeat: no-repeat;
+                min-height: 100vh;
+            }
+        }
+        
         .glass-effect {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
+        
+        /* Mobile glass effect fix */
+        @media (max-width: 768px) {
+            .glass-effect {
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(5px);
+            }
+        }
+        
         .gradient-text {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+        
+        /* Mobile gradient text fix */
+        @media (max-width: 768px) {
+            .gradient-text {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                color: #667eea; /* Fallback color for mobile */
+            }
+        }
+        
         .hover-scale {
             transition: transform 0.3s ease;
         }
@@ -63,62 +95,24 @@
             width: auto;
         }
         
-        /* Mobile responsiveness improvements */
+        /* Mobile visibility fixes */
         @media (max-width: 768px) {
-            .fixed.inset-0 {
-                padding: 10px;
+            section {
+                visibility: visible !important;
+                opacity: 1 !important;
+                display: block !important;
             }
-            .max-w-2xl {
-                max-width: calc(100vw - 20px);
+            
+            .glass-effect {
+                visibility: visible !important;
+                opacity: 1 !important;
+                display: block !important;
             }
-            .max-w-md {
-                max-width: calc(100vw - 20px);
-            }
-            .overflow-y-auto {
-                max-height: calc(100vh - 20px);
-            }
-            .admin-nav-btn {
-                font-size: 0.8rem;
-                padding: 0.5rem 0.25rem;
-            }
-            .space-x-8 {
-                gap: 0.5rem;
-            }
-            .grid-cols-1.md\\:grid-cols-2.lg\\:grid-cols-3 {
-                grid-template-columns: 1fr;
-            }
-            .flex.justify-between {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            .space-x-4 > * + * {
-                margin-left: 0;
-                margin-top: 0.5rem;
-            }
-            .max-w-7xl {
-                padding-left: 1rem;
-                padding-right: 1rem;
-            }
-        }
-        
-        @media (max-width: 640px) {
-            .text-5xl {
-                font-size: 2.5rem;
-            }
-            .text-4xl {
-                font-size: 2rem;
-            }
-            .text-3xl {
-                font-size: 1.5rem;
-            }
-            .px-8.py-3 {
-                padding: 0.5rem 1rem;
-            }
-            .p-12 {
-                padding: 1.5rem;
-            }
-            .p-8 {
-                padding: 1rem;
+            
+            /* Ensure text remains visible */
+            h1, h2, h3, h4, h5, h6, p, span, div {
+                visibility: visible !important;
+                opacity: 1 !important;
             }
         }
     </style>
@@ -138,12 +132,12 @@
                     <h1 class="text-2xl font-bold gradient-text">S&A Jewellery</h1>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <a href="#home" class="text-gray-700 hover:text-indigo-600 transition-colors hidden sm:block">Home</a>
-                    <a href="#products" class="text-gray-700 hover:text-indigo-600 transition-colors hidden sm:block">Products</a>
-                    <a href="#about" class="text-gray-700 hover:text-indigo-600 transition-colors hidden sm:block">About</a>
-                    <a href="#contact" class="text-gray-700 hover:text-indigo-600 transition-colors hidden sm:block">Contact</a>
+                    <a href="#home" class="text-gray-700 hover:text-indigo-600 transition-colors">Home</a>
+                    <a href="#products" class="text-gray-700 hover:text-indigo-600 transition-colors">Products</a>
+                    <a href="#about" class="text-gray-700 hover:text-indigo-600 transition-colors">About</a>
+                    <a href="#contact" class="text-gray-700 hover:text-indigo-600 transition-colors">Contact</a>
                     <button onclick="showAdminLogin()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
-                        <i class="fas fa-user-cog mr-2"></i><span class="hidden sm:inline">Admin</span>
+                        <i class="fas fa-user-cog mr-2"></i>Admin
                     </button>
                 </div>
             </div>
@@ -154,8 +148,8 @@
     <section id="home" class="py-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div class="glass-effect rounded-lg p-12">
-                <h2 id="heroTitle" class="text-5xl font-bold gradient-text mb-6">Handcrafted Excellence</h2>
-                <p id="heroSubtitle" class="text-xl text-gray-600 mb-8">Discover our exquisite collection of handmade jewellery, crafted with passion and precision.</p>
+                <h2 class="text-5xl font-bold gradient-text mb-6">Handcrafted Excellence</h2>
+                <p class="text-xl text-gray-600 mb-8">Discover our exquisite collection of handmade jewellery, crafted with passion and precision.</p>
                 <a href="#products" class="bg-indigo-600 text-white px-8 py-3 rounded-lg text-lg hover:bg-indigo-700 transition-colors">
                     Explore Collection
                 </a>
@@ -166,7 +160,7 @@
     <!-- Products Section -->
     <section id="products" class="py-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 id="productsTitle" class="text-4xl font-bold text-center gradient-text mb-12">Our Jewellery Collection</h2>
+            <h2 class="text-4xl font-bold text-center gradient-text mb-12">Our Jewellery Collection</h2>
             <div id="productGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Products will be dynamically loaded here -->
             </div>
@@ -177,8 +171,8 @@
     <section id="about" class="py-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="glass-effect rounded-lg p-12">
-                <h2 id="aboutTitle" class="text-4xl font-bold gradient-text text-center mb-8">About S&A Jewellery</h2>
-                <p id="aboutText" class="text-lg text-gray-600 text-center max-w-3xl mx-auto">
+                <h2 class="text-4xl font-bold gradient-text text-center mb-8">About S&A Jewellery</h2>
+                <p class="text-lg text-gray-600 text-center max-w-3xl mx-auto">
                     At S&A Jewellery, we believe that every piece tells a story. Our handcrafted jewellery combines traditional techniques with contemporary designs, creating unique pieces that celebrate life's special moments. Each item is carefully crafted with attention to detail and made with love.
                 </p>
             </div>
@@ -189,19 +183,19 @@
     <section id="contact" class="py-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="glass-effect rounded-lg p-12 text-center">
-                <h2 id="contactTitle" class="text-4xl font-bold gradient-text mb-8">Contact Us</h2>
+                <h2 class="text-4xl font-bold gradient-text mb-8">Contact Us</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div>
                         <i class="fas fa-envelope text-3xl text-indigo-600 mb-4"></i>
-                        <p id="contactEmail" class="text-lg text-gray-600"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="9ef7f0f8f1deedfff4fbe9fbf2f2fbece7b0fdf1b0ebf5">[email&#160;protected]</a></p>
+                        <p class="text-lg text-gray-600"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="452c2b232a0536242f203220292920373c6b262a6b302e">[email&#160;protected]</a></p>
                     </div>
                     <div>
                         <i class="fas fa-phone text-3xl text-indigo-600 mb-4"></i>
-                        <p id="contactPhone" class="text-lg text-gray-600">+44 123 456 7890</p>
+                        <p class="text-lg text-gray-600">+44 123 456 7890</p>
                     </div>
                     <div>
                         <i class="fas fa-map-marker-alt text-3xl text-indigo-600 mb-4"></i>
-                        <p id="contactAddress" class="text-lg text-gray-600">London, United Kingdom</p>
+                        <p class="text-lg text-gray-600">London, United Kingdom</p>
                     </div>
                 </div>
             </div>
@@ -210,13 +204,13 @@
 
     <!-- Admin Login Modal -->
     <div id="adminLoginModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
-        <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="flex items-center justify-center min-h-screen">
             <div class="glass-effect rounded-lg p-8 max-w-md w-full mx-4">
                 <h3 class="text-2xl font-bold gradient-text mb-6 text-center">Admin Login</h3>
                 <div class="space-y-4">
                     <input type="password" id="adminPassword" placeholder="Enter admin password" 
                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                    <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
+                    <div class="flex space-x-4">
                         <button onclick="adminLogin()" class="flex-1 bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition-colors">
                             Login
                         </button>
@@ -233,7 +227,7 @@
     <div id="adminPanel" class="admin-section">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div class="glass-effect rounded-lg p-8">
-                <div class="flex flex-col sm:flex-row justify-between items-center mb-8 space-y-4 sm:space-y-0">
+                <div class="flex justify-between items-center mb-8">
                     <h2 class="text-3xl font-bold gradient-text">Admin Panel</h2>
                     <button onclick="adminLogout()" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">
                         <i class="fas fa-sign-out-alt mr-2"></i>Logout
@@ -241,21 +235,18 @@
                 </div>
 
                 <!-- Admin Navigation -->
-                <div class="border-b border-gray-200 mb-8 overflow-x-auto">
+                <div class="border-b border-gray-200 mb-8">
                     <nav class="-mb-px flex space-x-8">
-                        <button onclick="showAdminSection('products')" class="admin-nav-btn border-indigo-500 text-indigo-600 border-b-2 py-2 px-1 text-sm font-medium whitespace-nowrap">
+                        <button onclick="showAdminSection('products')" class="admin-nav-btn border-indigo-500 text-indigo-600 border-b-2 py-2 px-1 text-sm font-medium">
                             Products
                         </button>
-                        <button onclick="showAdminSection('orders')" class="admin-nav-btn border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 border-b-2 py-2 px-1 text-sm font-medium whitespace-nowrap">
+                        <button onclick="showAdminSection('orders')" class="admin-nav-btn border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 border-b-2 py-2 px-1 text-sm font-medium">
                             Orders
                         </button>
-                        <button onclick="showAdminSection('tracking')" class="admin-nav-btn border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 border-b-2 py-2 px-1 text-sm font-medium whitespace-nowrap">
-                            Tracking
+                        <button onclick="showAdminSection('tracking')" class="admin-nav-btn border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 border-b-2 py-2 px-1 text-sm font-medium">
+                            Order Tracking
                         </button>
-                        <button onclick="showAdminSection('content')" class="admin-nav-btn border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 border-b-2 py-2 px-1 text-sm font-medium whitespace-nowrap">
-                            Content
-                        </button>
-                        <button onclick="showAdminSection('settings')" class="admin-nav-btn border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 border-b-2 py-2 px-1 text-sm font-medium whitespace-nowrap">
+                        <button onclick="showAdminSection('settings')" class="admin-nav-btn border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 border-b-2 py-2 px-1 text-sm font-medium">
                             Settings
                         </button>
                     </nav>
@@ -263,7 +254,7 @@
 
                 <!-- Products Management -->
                 <div id="adminProducts" class="admin-section active">
-                    <div class="flex flex-col sm:flex-row justify-between items-center mb-6 space-y-4 sm:space-y-0">
+                    <div class="flex justify-between items-center mb-6">
                         <h3 class="text-2xl font-bold text-gray-800">Manage Products</h3>
                         <button onclick="showAddProduct()" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors">
                             <i class="fas fa-plus mr-2"></i>Add Product
@@ -287,83 +278,6 @@
                     <h3 class="text-2xl font-bold text-gray-800 mb-6">Order Tracking</h3>
                     <div id="trackingList" class="space-y-4">
                         <!-- Tracking info will be loaded here -->
-                    </div>
-                </div>
-
-                <!-- Content Management -->
-                <div id="adminContent" class="admin-section">
-                    <h3 class="text-2xl font-bold text-gray-800 mb-6">Content Management</h3>
-                    <div class="space-y-6">
-                        <!-- Website Text Management -->
-                        <div class="border border-gray-200 rounded-lg p-4">
-                            <h4 class="text-lg font-semibold mb-4">Website Text</h4>
-                            <div class="space-y-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Hero Title</label>
-                                    <input type="text" id="editHeroTitle" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Hero Subtitle</label>
-                                    <textarea id="editHeroSubtitle" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg"></textarea>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Products Section Title</label>
-                                    <input type="text" id="editProductsTitle" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">About Title</label>
-                                    <input type="text" id="editAboutTitle" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">About Text</label>
-                                    <textarea id="editAboutText" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg"></textarea>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Contact Title</label>
-                                    <input type="text" id="editContactTitle" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
-                                </div>
-                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                                        <input type="email" id="editContactEmail" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Phone</label>
-                                        <input type="text" id="editContactPhone" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Address</label>
-                                        <input type="text" id="editContactAddress" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
-                                    </div>
-                                </div>
-                                <button onclick="saveWebsiteContent()" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
-                                    Save Text Changes
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Background Image Management -->
-                        <div class="border border-gray-200 rounded-lg p-4">
-                            <h4 class="text-lg font-semibold mb-4">Background Image</h4>
-                            <div class="space-y-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Current Background</label>
-                                    <div id="currentBackground" class="w-full h-32 bg-cover bg-center rounded-lg border"></div>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Upload New Background</label>
-                                    <input type="file" id="backgroundImage" accept="image/*" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
-                                    <p class="text-sm text-gray-500 mt-1">Upload a new background image for the website</p>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">Or Use Image URL</label>
-                                    <input type="url" id="backgroundImageUrl" placeholder="https://example.com/image.jpg" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
-                                </div>
-                                <button onclick="saveBackgroundImage()" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
-                                    Update Background
-                                </button>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
@@ -415,7 +329,7 @@
                     <div id="imagePreview" class="grid grid-cols-3 gap-4 mt-4">
                         <!-- Image previews will appear here -->
                     </div>
-                    <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
+                    <div class="flex space-x-4">
                         <button type="submit" class="flex-1 bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition-colors">
                             Save Product
                         </button>
@@ -479,7 +393,7 @@
                     <div id="paypalButtonContainer" class="mt-4">
                         <!-- PayPal button will be rendered here -->
                     </div>
-                    <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
+                    <div class="flex space-x-4">
                         <button type="submit" id="placeOrderBtn" class="flex-1 bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition-colors">
                             Place Order
                         </button>
@@ -499,17 +413,25 @@
         let orders = [];
         let currentEditingProduct = null;
         let currentOrderProduct = null;
-        let websiteContent = {};
 
         // Admin password - simple but working
         const ADMIN_PASSWORD = 'admin';
 
         // Initialize application
         document.addEventListener('DOMContentLoaded', function() {
+            // Mobile rendering fix - ensure content is visible
+            setTimeout(function() {
+                const sections = document.querySelectorAll('section');
+                sections.forEach(section => {
+                    section.style.visibility = 'visible';
+                    section.style.opacity = '1';
+                    section.style.display = 'block';
+                });
+            }, 100);
+            
             loadProducts();
             initializeEmailJS();
             loadOrders();
-            loadWebsiteContent();
         });
 
         // Back arrow functionality
@@ -600,109 +522,6 @@
                 loadOrdersAdmin();
             } else if (section === 'tracking') {
                 loadTrackingAdmin();
-            } else if (section === 'content') {
-                loadContentManagement();
-            }
-        }
-
-        // Content Management Functions
-        function loadWebsiteContent() {
-            const savedContent = localStorage.getItem('sajewellery_content');
-            if (savedContent) {
-                websiteContent = JSON.parse(savedContent);
-                applyWebsiteContent();
-            } else {
-                // Default content
-                websiteContent = {
-                    heroTitle: 'Handcrafted Excellence',
-                    heroSubtitle: 'Discover our exquisite collection of handmade jewellery, crafted with passion and precision.',
-                    productsTitle: 'Our Jewellery Collection',
-                    aboutTitle: 'About S&A Jewellery',
-                    aboutText: 'At S&A Jewellery, we believe that every piece tells a story. Our handcrafted jewellery combines traditional techniques with contemporary designs, creating unique pieces that celebrate life\'s special moments. Each item is carefully crafted with attention to detail and made with love.',
-                    contactTitle: 'Contact Us',
-                    contactEmail: 'info@sajewellery.co.uk',
-                    contactPhone: '+44 123 456 7890',
-                    contactAddress: 'London, United Kingdom',
-                    backgroundImage: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80'
-                };
-                saveWebsiteContent();
-            }
-        }
-
-        function applyWebsiteContent() {
-            document.getElementById('heroTitle').textContent = websiteContent.heroTitle;
-            document.getElementById('heroSubtitle').textContent = websiteContent.heroSubtitle;
-            document.getElementById('productsTitle').textContent = websiteContent.productsTitle;
-            document.getElementById('aboutTitle').textContent = websiteContent.aboutTitle;
-            document.getElementById('aboutText').textContent = websiteContent.aboutText;
-            document.getElementById('contactTitle').textContent = websiteContent.contactTitle;
-            document.getElementById('contactEmail').textContent = websiteContent.contactEmail;
-            document.getElementById('contactPhone').textContent = websiteContent.contactPhone;
-            document.getElementById('contactAddress').textContent = websiteContent.contactAddress;
-            
-            if (websiteContent.backgroundImage) {
-                document.body.style.backgroundImage = `url('${websiteContent.backgroundImage}')`;
-            }
-        }
-
-        function loadContentManagement() {
-            document.getElementById('editHeroTitle').value = websiteContent.heroTitle || '';
-            document.getElementById('editHeroSubtitle').value = websiteContent.heroSubtitle || '';
-            document.getElementById('editProductsTitle').value = websiteContent.productsTitle || '';
-            document.getElementById('editAboutTitle').value = websiteContent.aboutTitle || '';
-            document.getElementById('editAboutText').value = websiteContent.aboutText || '';
-            document.getElementById('editContactTitle').value = websiteContent.contactTitle || '';
-            document.getElementById('editContactEmail').value = websiteContent.contactEmail || '';
-            document.getElementById('editContactPhone').value = websiteContent.contactPhone || '';
-            document.getElementById('editContactAddress').value = websiteContent.contactAddress || '';
-            
-            // Show current background
-            const currentBg = document.getElementById('currentBackground');
-            if (websiteContent.backgroundImage) {
-                currentBg.style.backgroundImage = `url('${websiteContent.backgroundImage}')`;
-            }
-        }
-
-        function saveWebsiteContent() {
-            websiteContent.heroTitle = document.getElementById('editHeroTitle').value;
-            websiteContent.heroSubtitle = document.getElementById('editHeroSubtitle').value;
-            websiteContent.productsTitle = document.getElementById('editProductsTitle').value;
-            websiteContent.aboutTitle = document.getElementById('editAboutTitle').value;
-            websiteContent.aboutText = document.getElementById('editAboutText').value;
-            websiteContent.contactTitle = document.getElementById('editContactTitle').value;
-            websiteContent.contactEmail = document.getElementById('editContactEmail').value;
-            websiteContent.contactPhone = document.getElementById('editContactPhone').value;
-            websiteContent.contactAddress = document.getElementById('editContactAddress').value;
-            
-            localStorage.setItem('sajewellery_content', JSON.stringify(websiteContent));
-            applyWebsiteContent();
-            alert('Website content updated successfully!');
-        }
-
-        function saveBackgroundImage() {
-            const fileInput = document.getElementById('backgroundImage');
-            const urlInput = document.getElementById('backgroundImageUrl');
-            
-            if (fileInput.files.length > 0) {
-                const file = fileInput.files[0];
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    websiteContent.backgroundImage = e.target.result;
-                    localStorage.setItem('sajewellery_content', JSON.stringify(websiteContent));
-                    applyWebsiteContent();
-                    loadContentManagement();
-                    alert('Background image updated successfully!');
-                };
-                reader.readAsDataURL(file);
-            } else if (urlInput.value) {
-                websiteContent.backgroundImage = urlInput.value;
-                localStorage.setItem('sajewellery_content', JSON.stringify(websiteContent));
-                applyWebsiteContent();
-                loadContentManagement();
-                alert('Background image updated successfully!');
-                urlInput.value = '';
-            } else {
-                alert('Please select a file or enter a URL');
             }
         }
 
@@ -777,9 +596,9 @@
                 <div class="p-6">
                     <h3 class="text-xl font-bold text-gray-800 mb-2">${product.name}</h3>
                     <p class="text-gray-600 mb-4">${product.description}</p>
-                    <div class="flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
+                    <div class="flex justify-between items-center">
                         <span class="text-2xl font-bold text-indigo-600">£${product.price.toFixed(2)}</span>
-                        <button onclick="showOrderModal(${product.id})" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition-colors w-full sm:w-auto">
+                        <button onclick="showOrderModal(${product.id})" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
                             Order Now
                         </button>
                     </div>
@@ -797,18 +616,18 @@
                 const productDiv = document.createElement('div');
                 productDiv.className = 'border border-gray-200 rounded-lg p-4';
                 productDiv.innerHTML = `
-                    <div class="flex flex-col sm:flex-row justify-between items-start space-y-2 sm:space-y-0">
+                    <div class="flex justify-between items-start">
                         <div class="flex-1">
                             <h4 class="text-lg font-semibold">${product.name}</h4>
                             <p class="text-gray-600">£${product.price.toFixed(2)}</p>
                             <p class="text-sm text-gray-500">${product.description}</p>
                             <p class="text-xs text-gray-400">${product.images ? product.images.length : 0} image(s)</p>
                         </div>
-                        <div class="flex space-x-2">
-                            <button onclick="editProduct(${product.id})" class="text-blue-600 hover:text-blue-800 p-2">
+                        <div class="space-x-2">
+                            <button onclick="editProduct(${product.id})" class="text-blue-600 hover:text-blue-800">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button onclick="deleteProduct(${product.id})" class="text-red-600 hover:text-red-800 p-2">
+                            <button onclick="deleteProduct(${product.id})" class="text-red-600 hover:text-red-800">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
@@ -953,10 +772,10 @@
                 const productInfo = document.getElementById('orderProductInfo');
                 productInfo.innerHTML = `
                     <div class="border border-gray-200 rounded-lg p-4">
-                        <div class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                        <div class="flex items-center space-x-4">
                             <img src="${product.images && product.images[0] || 'https://via.placeholder.com/100'}" 
                                  alt="${product.name}" class="w-20 h-20 object-cover rounded">
-                            <div class="text-center sm:text-left">
+                            <div>
                                 <h4 class="text-lg font-semibold">${product.name}</h4>
                                 <p class="text-gray-600">${product.description}</p>
                                 <p class="text-xl font-bold text-indigo-600">£${product.price.toFixed(2)}</p>
@@ -1090,26 +909,26 @@
                 const orderDiv = document.createElement('div');
                 orderDiv.className = 'border border-gray-200 rounded-lg p-4';
                 orderDiv.innerHTML = `
-                    <div class="flex flex-col lg:flex-row justify-between items-start mb-4 space-y-2 lg:space-y-0">
+                    <div class="flex justify-between items-start mb-4">
                         <div>
                             <h4 class="text-lg font-semibold">Order #${order.trackingNumber}</h4>
                             <p class="text-gray-600">${order.productName} - £${order.productPrice.toFixed(2)}</p>
                             <p class="text-sm text-gray-500">Payment: ${order.paymentMethod}</p>
                         </div>
-                        <div class="text-left lg:text-right">
+                        <div class="text-right">
                             <span class="px-2 py-1 rounded text-sm ${getStatusColor(order.status)}">${order.status}</span>
                             <p class="text-xs text-gray-500 mt-1">${new Date(order.orderDate).toLocaleDateString()}</p>
                         </div>
                     </div>
-                    <div class="text-sm text-gray-600 space-y-1">
+                    <div class="text-sm text-gray-600">
                         <p><strong>Customer:</strong> ${order.customerFirstName} ${order.customerLastName}</p>
                         <p><strong>Email:</strong> ${order.customerEmail}</p>
                         <p><strong>Phone:</strong> ${order.customerPhone}</p>
                         <p><strong>Address:</strong> ${order.customerAddress}</p>
                         ${order.specialRequests ? `<p><strong>Special Requests:</strong> ${order.specialRequests}</p>` : ''}
                     </div>
-                    <div class="mt-4">
-                        <select onchange="updateOrderStatus(${order.id}, this.value)" class="w-full sm:w-auto px-3 py-1 border border-gray-300 rounded">
+                    <div class="mt-4 space-x-2">
+                        <select onchange="updateOrderStatus(${order.id}, this.value)" class="px-3 py-1 border border-gray-300 rounded">
                             <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>Pending</option>
                             <option value="processing" ${order.status === 'processing' ? 'selected' : ''}>Processing</option>
                             <option value="shipped" ${order.status === 'shipped' ? 'selected' : ''}>Shipped</option>
@@ -1134,13 +953,13 @@
                 const trackingDiv = document.createElement('div');
                 trackingDiv.className = 'border border-gray-200 rounded-lg p-4';
                 trackingDiv.innerHTML = `
-                    <div class="flex flex-col sm:flex-row justify-between items-start space-y-2 sm:space-y-0">
+                    <div class="flex justify-between items-center">
                         <div>
                             <h4 class="text-lg font-semibold">Tracking #${order.trackingNumber}</h4>
                             <p class="text-gray-600">${order.productName}</p>
                             <p class="text-sm text-gray-500">${order.customerFirstName} ${order.customerLastName}</p>
                         </div>
-                        <div class="text-left sm:text-right">
+                        <div class="text-right">
                             <span class="px-2 py-1 rounded text-sm ${getStatusColor(order.status)}">${order.status}</span>
                             <p class="text-xs text-gray-500 mt-1">${new Date(order.orderDate).toLocaleDateString()}</p>
                         </div>
@@ -1233,7 +1052,6 @@
             loadAdminProducts();
             loadOrdersAdmin();
             loadTrackingAdmin();
-            loadContentManagement();
             
             // Load settings
             const savedSettings = localStorage.getItem('sajewellery_settings');
@@ -1279,14 +1097,14 @@
             });
         });
     </script>
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"978f742fcda5aa02","serverTiming":{"name":{"cfExtPri":true,"cfEdge":true,"cfOrigin":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"version":"2025.8.0","token":"4edd5f8ec12a48cfa682ab8261b80a79"}' crossorigin="anonymous"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"978fa1566ed060f5","serverTiming":{"name":{"cfExtPri":true,"cfEdge":true,"cfOrigin":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"version":"2025.8.0","token":"4edd5f8ec12a48cfa682ab8261b80a79"}' crossorigin="anonymous"></script>
 </body>
 </html>
     <script id="html_badge_script1">
         window.__genspark_remove_badge_link = "https://www.genspark.ai/api/html_badge/" +
-            "remove_badge?token=To%2FBnjzloZ3UfQdcSaYfDpYffuQeF%2FonFP3fPEAQ34O2U7sFukmzjPtVWbv%2BL136MYOG0W44%2Fy5X7CICBlR115FtJ%2FMZ88Nrla48YeNBRY7BF29ExdneA2mAwLqREZA1wbLXawGY9GirztYAD45aD0QTtqXF9kbHU5fM0LP%2F5tYYQejszx6lZEWJawO2R46%2F%2FXEYrpGqp4qN4uQ1WA%2BYmwWBruZ0ML0c40k4Hlj8m07ay8n8kpPDmK4jhQVfOhtlCavVzilURJajtLB%2FlArF6cNqDlBfMV60Ixh2hRv6BUf162kzVxPObutI0lIvlYOQgdMUtFYxTt1FUEqe0bBg6JoyLtk36%2FLeG1SJB8K%2BApHhPTVPczFs6qGdubHq4mdxBlwfJ0HpnQtaiTAmj9i7YGp5VRSN0YhrnibreMi0xM2LwI6WET9Zycu6nFpYPQrGnqz2gjpDsRQkyolzJeLFYqODa7R1tI%2Bo63T74xEEA72Hr1N%2Buq15skwhZoxCtfv50xyJK9tiP%2B%2F2AgEQSUvj8DgW42%2FEAhxgyYINS39H5pk%3D";
+            "remove_badge?token=To%2FBnjzloZ3UfQdcSaYfDgzfD%2Fi6wKfQTRu23YB0cwfgpyvl142nfWqH23kJtJ2EUWALTzk32MxONN22snDcXRsbZxqmuE6b7wNKETIPDvii%2B%2BD4jjIdK6U%2BS%2BsZ%2BdBLuRE5tMfctVxjRZDayp6DjLWaXV7A8PwvcVvpMMOcV6gg6KIWO3ubwlUy%2FalftdAYag60juD47Yn6V8ecmDQwXyl3fagndRNGb1RMSkCFQoxTXfiYxklssqAPkhm17XQ%2Ff1eokR9kLGG8mAj1iFhF5%2B17rfJi44h5iwP1tLe9cBcA2VRbq1opxX1Ws5zjkFIyOlCTCia78Drc3kaeSTF0P28KHWx2HzJi5imXotDzACo%2FAmGdIrUvfPOetFHPY%2Bt2ESAslQ3z7Gj375qcgvd3F%2Bxu4bmYtlmRFjQQmDphUzxfD54pV4Q8iHdV56HlSO2Z3Oub%2BF6aKi49orXannKqqlhTUrNJ9dPCwosIDqDfZk7%2FlAJWSretl9qFFqlgccETYruV5B7ZnZ7XS2fMxcQrYQ%3D%3D";
         window.__genspark_locale = "en-US";
-        window.__genspark_token = "To/BnjzloZ3UfQdcSaYfDpYffuQeF/onFP3fPEAQ34O2U7sFukmzjPtVWbv+L136MYOG0W44/y5X7CICBlR115FtJ/MZ88Nrla48YeNBRY7BF29ExdneA2mAwLqREZA1wbLXawGY9GirztYAD45aD0QTtqXF9kbHU5fM0LP/5tYYQejszx6lZEWJawO2R46//XEYrpGqp4qN4uQ1WA+YmwWBruZ0ML0c40k4Hlj8m07ay8n8kpPDmK4jhQVfOhtlCavVzilURJajtLB/lArF6cNqDlBfMV60Ixh2hRv6BUf162kzVxPObutI0lIvlYOQgdMUtFYxTt1FUEqe0bBg6JoyLtk36/LeG1SJB8K+ApHhPTVPczFs6qGdubHq4mdxBlwfJ0HpnQtaiTAmj9i7YGp5VRSN0YhrnibreMi0xM2LwI6WET9Zycu6nFpYPQrGnqz2gjpDsRQkyolzJeLFYqODa7R1tI+o63T74xEEA72Hr1N+uq15skwhZoxCtfv50xyJK9tiP+/2AgEQSUvj8DgW42/EAhxgyYINS39H5pk=";
+        window.__genspark_token = "To/BnjzloZ3UfQdcSaYfDgzfD/i6wKfQTRu23YB0cwfgpyvl142nfWqH23kJtJ2EUWALTzk32MxONN22snDcXRsbZxqmuE6b7wNKETIPDvii++D4jjIdK6U+S+sZ+dBLuRE5tMfctVxjRZDayp6DjLWaXV7A8PwvcVvpMMOcV6gg6KIWO3ubwlUy/alftdAYag60juD47Yn6V8ecmDQwXyl3fagndRNGb1RMSkCFQoxTXfiYxklssqAPkhm17XQ/f1eokR9kLGG8mAj1iFhF5+17rfJi44h5iwP1tLe9cBcA2VRbq1opxX1Ws5zjkFIyOlCTCia78Drc3kaeSTF0P28KHWx2HzJi5imXotDzACo/AmGdIrUvfPOetFHPY+t2ESAslQ3z7Gj375qcgvd3F+xu4bmYtlmRFjQQmDphUzxfD54pV4Q8iHdV56HlSO2Z3Oub+F6aKi49orXannKqqlhTUrNJ9dPCwosIDqDfZk7/lAJWSretl9qFFqlgccETYruV5B7ZnZ7XS2fMxcQrYQ==";
     </script>
     
     <script id="html_notice_dialog_script" src="https://www.genspark.ai/notice_dialog.js"></script>
