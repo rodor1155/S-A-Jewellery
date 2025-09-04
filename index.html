@@ -114,6 +114,40 @@
                 visibility: visible !important;
                 opacity: 1 !important;
             }
+
+            /* Hide desktop navigation on mobile */
+            .desktop-nav {
+                display: none !important;
+            }
+
+            /* Show mobile menu button */
+            .mobile-menu-button {
+                display: block !important;
+            }
+
+            /* Mobile menu dropdown */
+            .mobile-menu {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                border-top: none;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                z-index: 1000;
+            }
+        }
+
+        /* Desktop styles */
+        @media (min-width: 769px) {
+            .mobile-menu-button {
+                display: none;
+            }
+            .mobile-menu {
+                display: none !important;
+            }
         }
     </style>
 </head>
@@ -124,19 +158,41 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="glass-effect shadow-lg">
+    <nav class="glass-effect shadow-lg relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <img src="https://page.gensparksite.com/v1/base64_upload/ffc615e6d3ac747e61802c003e94fc97" alt="S&A Jewellery" class="logo-img mr-3">
                     <h1 class="text-2xl font-bold gradient-text">S&A Jewellery</h1>
                 </div>
-                <div class="flex items-center space-x-4">
+                
+                <!-- Desktop Navigation -->
+                <div class="desktop-nav flex items-center space-x-4">
                     <a href="#home" class="text-gray-700 hover:text-indigo-600 transition-colors">Home</a>
                     <a href="#products" class="text-gray-700 hover:text-indigo-600 transition-colors">Products</a>
                     <a href="#about" class="text-gray-700 hover:text-indigo-600 transition-colors">About</a>
                     <a href="#contact" class="text-gray-700 hover:text-indigo-600 transition-colors">Contact</a>
                     <button onclick="showAdminLogin()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
+                        <i class="fas fa-user-cog mr-2"></i>Admin
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="mobile-menu-button flex items-center">
+                    <button onclick="toggleMobileMenu()" class="text-gray-700 hover:text-indigo-600 transition-colors p-2">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu Dropdown -->
+            <div id="mobileMenu" class="mobile-menu hidden">
+                <div class="px-4 py-2 space-y-2">
+                    <a href="#home" onclick="closeMobileMenu()" class="block text-gray-700 hover:text-indigo-600 transition-colors py-2 border-b border-gray-200">Home</a>
+                    <a href="#products" onclick="closeMobileMenu()" class="block text-gray-700 hover:text-indigo-600 transition-colors py-2 border-b border-gray-200">Products</a>
+                    <a href="#about" onclick="closeMobileMenu()" class="block text-gray-700 hover:text-indigo-600 transition-colors py-2 border-b border-gray-200">About</a>
+                    <a href="#contact" onclick="closeMobileMenu()" class="block text-gray-700 hover:text-indigo-600 transition-colors py-2 border-b border-gray-200">Contact</a>
+                    <button onclick="showAdminLogin(); closeMobileMenu();" class="w-full text-left bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors mt-2">
                         <i class="fas fa-user-cog mr-2"></i>Admin
                     </button>
                 </div>
@@ -187,7 +243,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div>
                         <i class="fas fa-envelope text-3xl text-indigo-600 mb-4"></i>
-                        <p class="text-lg text-gray-600"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="452c2b232a0536242f203220292920373c6b262a6b302e">[email&#160;protected]</a></p>
+                        <p class="text-lg text-gray-600"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4c25222a230c3f2d26293b292020293e35622f23623927">[email&#160;protected]</a></p>
                     </div>
                     <div>
                         <i class="fas fa-phone text-3xl text-indigo-600 mb-4"></i>
@@ -416,6 +472,27 @@
 
         // Admin password - simple but working
         const ADMIN_PASSWORD = 'admin';
+
+        // Mobile menu functions
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.add('hidden');
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuButton = event.target.closest('.mobile-menu-button');
+            
+            if (!menuButton && !mobileMenu.contains(event.target)) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
 
         // Initialize application
         document.addEventListener('DOMContentLoaded', function() {
@@ -1093,18 +1170,20 @@
                         behavior: 'smooth',
                         block: 'start'
                     });
+                    // Close mobile menu after navigation
+                    closeMobileMenu();
                 }
             });
         });
     </script>
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"978fa1566ed060f5","serverTiming":{"name":{"cfExtPri":true,"cfEdge":true,"cfOrigin":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"version":"2025.8.0","token":"4edd5f8ec12a48cfa682ab8261b80a79"}' crossorigin="anonymous"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"979d05b5596e94de","serverTiming":{"name":{"cfExtPri":true,"cfEdge":true,"cfOrigin":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"version":"2025.8.0","token":"4edd5f8ec12a48cfa682ab8261b80a79"}' crossorigin="anonymous"></script>
 </body>
 </html>
     <script id="html_badge_script1">
         window.__genspark_remove_badge_link = "https://www.genspark.ai/api/html_badge/" +
-            "remove_badge?token=To%2FBnjzloZ3UfQdcSaYfDgzfD%2Fi6wKfQTRu23YB0cwfgpyvl142nfWqH23kJtJ2EUWALTzk32MxONN22snDcXRsbZxqmuE6b7wNKETIPDvii%2B%2BD4jjIdK6U%2BS%2BsZ%2BdBLuRE5tMfctVxjRZDayp6DjLWaXV7A8PwvcVvpMMOcV6gg6KIWO3ubwlUy%2FalftdAYag60juD47Yn6V8ecmDQwXyl3fagndRNGb1RMSkCFQoxTXfiYxklssqAPkhm17XQ%2Ff1eokR9kLGG8mAj1iFhF5%2B17rfJi44h5iwP1tLe9cBcA2VRbq1opxX1Ws5zjkFIyOlCTCia78Drc3kaeSTF0P28KHWx2HzJi5imXotDzACo%2FAmGdIrUvfPOetFHPY%2Bt2ESAslQ3z7Gj375qcgvd3F%2Bxu4bmYtlmRFjQQmDphUzxfD54pV4Q8iHdV56HlSO2Z3Oub%2BF6aKi49orXannKqqlhTUrNJ9dPCwosIDqDfZk7%2FlAJWSretl9qFFqlgccETYruV5B7ZnZ7XS2fMxcQrYQ%3D%3D";
+            "remove_badge?token=To%2FBnjzloZ3UfQdcSaYfDhzg2LYG2dZhmEynMJASjrNeVS9ldzyw2s4AW4jzvz01W%2Byo%2FNlW6gnoKSUVjbEmUOhBlRG2l%2FxWNB8AZEudPbFtOuuoPVcF7TRv6X2HExkV%2BEkNDJ9Pk55UHPT8eZJVSVKrIgjQAyKuKcwI%2BaF9LHnKGefqNzmu3SIyqUWQA50w0seRDCnc%2BlnowgNLF9gJDZPPmxzyfMoUfpwVJecWcO373OoNjCsn4fVsPDLzf2ZHQudmnxLFtSQVrMw5pDl7Eh1EAJaSMEdGAWJydBtBC9PEqsmB38xU8UltX07OPkgmXewU8UpPAu29rR7OW%2Bz2v5H1Ak3eg93TFocsB9VgocS0P2EHzuK6giFZAKOuko3%2BAVTQ0vh1M7qDVjAbt3jCmZGA39TfveoczXzB96OJLB%2BljJwxmLRz8A011IycnBkWkcFEcB9LdgioQy99adrNQwq42mpbvFoesE8pI%2FZq5U0zONowjy4LwMqVkXJ1dn%2FXF7Np%2FAkazRzvXwox41qH2A%3D%3D";
         window.__genspark_locale = "en-US";
-        window.__genspark_token = "To/BnjzloZ3UfQdcSaYfDgzfD/i6wKfQTRu23YB0cwfgpyvl142nfWqH23kJtJ2EUWALTzk32MxONN22snDcXRsbZxqmuE6b7wNKETIPDvii++D4jjIdK6U+S+sZ+dBLuRE5tMfctVxjRZDayp6DjLWaXV7A8PwvcVvpMMOcV6gg6KIWO3ubwlUy/alftdAYag60juD47Yn6V8ecmDQwXyl3fagndRNGb1RMSkCFQoxTXfiYxklssqAPkhm17XQ/f1eokR9kLGG8mAj1iFhF5+17rfJi44h5iwP1tLe9cBcA2VRbq1opxX1Ws5zjkFIyOlCTCia78Drc3kaeSTF0P28KHWx2HzJi5imXotDzACo/AmGdIrUvfPOetFHPY+t2ESAslQ3z7Gj375qcgvd3F+xu4bmYtlmRFjQQmDphUzxfD54pV4Q8iHdV56HlSO2Z3Oub+F6aKi49orXannKqqlhTUrNJ9dPCwosIDqDfZk7/lAJWSretl9qFFqlgccETYruV5B7ZnZ7XS2fMxcQrYQ==";
+        window.__genspark_token = "To/BnjzloZ3UfQdcSaYfDhzg2LYG2dZhmEynMJASjrNeVS9ldzyw2s4AW4jzvz01W+yo/NlW6gnoKSUVjbEmUOhBlRG2l/xWNB8AZEudPbFtOuuoPVcF7TRv6X2HExkV+EkNDJ9Pk55UHPT8eZJVSVKrIgjQAyKuKcwI+aF9LHnKGefqNzmu3SIyqUWQA50w0seRDCnc+lnowgNLF9gJDZPPmxzyfMoUfpwVJecWcO373OoNjCsn4fVsPDLzf2ZHQudmnxLFtSQVrMw5pDl7Eh1EAJaSMEdGAWJydBtBC9PEqsmB38xU8UltX07OPkgmXewU8UpPAu29rR7OW+z2v5H1Ak3eg93TFocsB9VgocS0P2EHzuK6giFZAKOuko3+AVTQ0vh1M7qDVjAbt3jCmZGA39TfveoczXzB96OJLB+ljJwxmLRz8A011IycnBkWkcFEcB9LdgioQy99adrNQwq42mpbvFoesE8pI/Zq5U0zONowjy4LwMqVkXJ1dn/XF7Np/AkazRzvXwox41qH2A==";
     </script>
     
     <script id="html_notice_dialog_script" src="https://www.genspark.ai/notice_dialog.js"></script>
